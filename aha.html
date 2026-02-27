@@ -829,7 +829,13 @@
     <div id="login-view" class="active">
         <div class="login-box">
             <div class="logo-container">
-                <div class="logo-text">AHA<span class="text-orange">.</span></div>
+               <div class="logo">
+   <img 
+        src="FreeSample-Vectorizer-io-image.svg" 
+        alt="Aha Logo"
+        style="height: 100px; width: auto; border-radius: 20px;"
+   />
+</div>
                 <p class="text-muted text-sm" style="margin-top: 5px;">Admin Portal Access</p>
             </div>
             
@@ -872,7 +878,7 @@
             <div class="sidebar-header">
                 <div class="logo">
     <img 
-        src="./image.png" 
+        src="FreeSample-Vectorizer-io-image.svg" 
         alt="Aha Logo"
         style="height: 70px; width: auto;"
     />
@@ -890,7 +896,7 @@
                     </a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" data-target="movie">
+                    <a class="nav-link active" data-target="movie">
                         <i class="ph-fill ph-video-camera"></i>
                         <span>Movie Blog</span>
                     </a>
@@ -930,53 +936,27 @@
 
             <div class="content-area">
                 
-                <!-- 1. Entertainment Blog Section -->
-                <section id="view-entertainment" class="view-section active">
-                    <div class="section-header">
-                        <h2 class="section-title">Entertainment Content Generator</h2>
-                        <p class="text-muted">Automate your entertainment blog articles.</p>
-                    </div>
-
-                    <div class="glass-card">
-                        <!-- Form -->
-                        <div id="ent-form-container" class="form-container">
-                            <form id="form-entertainment">
-                                <div class="input-group">
-                                    <label for="ent-articles">Number of Articles</label>
-                                    <select id="ent-articles" class="form-control" required>
-                                        <option value="" disabled selected>Select quantity</option>
-                                        <option value="1">1 Article</option>
-                                        <option value="2">2 Articles</option>
-                                        <option value="3">3 Articles</option>
-                                    </select>
-                                </div>
-                                
-                                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
-                                    <i class="ph-bold ph-paper-plane-tilt"></i>
-                                    <span>Submit Request</span>
-                                </button>
-                            </form>
-                        </div>
-                        <!-- Loader / Status (Reuses logic via JS) -->
-                        <div id="ent-status" class="status-container">
-                            <!-- Injected by JS -->
-                        </div>
-                    </div>
-                </section>
-
                 <!-- 2. Movie Blog Section -->
-                <section id="view-movie" class="view-section">
+                <section id="view-movie" class="view-section active">
                     <div class="section-header">
-                        <h2 class="section-title">Movie Analysis Engine</h2>
-                        <p class="text-muted">Generate comprehensive movie reviews and data.</p>
-                    </div>
+    <h2 class="section-title">Movie Analysis Engine</h2>
+    <p class="text-muted">Generate comprehensive movie reviews and data.</p>
+   <p style="
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ff9800;
+    margin-top: 8px;
+    text-align: center;
+">
+    ⚠ You can generate only 5 reviews per day.
+</p>
+</div>
 
                     <div class="glass-card">
                         <!-- Form -->
                         <div id="mov-form-container" class="form-container">
                             <form id="form-movie">
                                 <div class="input-group">
-                                    <label for="mov-name">Movie Name</label>
                                     <input type="text" id="mov-name" class="form-control" placeholder="e.g. Avatar: The Way of Water" required autocomplete="off">
                                 </div>
                                 
@@ -1114,7 +1094,6 @@ loadBlogsFromBackend();
             const viewSections = document.querySelectorAll('.view-section');
 
             // Form Elements
-            const formEntertainment = document.getElementById('form-entertainment');
             const formMovie = document.getElementById('form-movie');
 
             // Render Blog Grid on load
@@ -1163,7 +1142,7 @@ loadBlogsFromBackend();
                 setTimeout(() => {
                     loginView.classList.add('active');
                     // Reset to default tab
-                    switchTab('entertainment');
+                    switchTab('movie');
                 }, 500);
             });
 
@@ -1418,7 +1397,14 @@ const imageHtml = `
                 statusContainer.innerHTML = `
                     <i class="ph-fill ph-x-circle status-icon error"></i>
                     <div class="status-text" style="color: var(--error);">❌ Failed — Try Again</div>
-                    <p class="text-muted text-sm" style="margin-bottom: 1.5rem;">Daily limit reached. Only 2 reviews allowed per day.</p>
+                 <p style="
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ff9800;
+    margin-bottom: 1.5rem;
+">
+    ⚠ Daily limit reached. Only 5 reviews allowed per day.
+</p>
                     <button class="btn btn-primary" style="max-width: 200px;" onclick="resetForm('${prefix}')">
                         <i class="ph-bold ph-arrow-counter-clockwise"></i> Back to Form
                     </button>
@@ -1684,16 +1670,6 @@ return `
 
 
             // Event Listeners for Forms
-            formEntertainment.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const articlesCount = document.getElementById('ent-articles').value;
-                const payload = {
-                    type: "entertainment_blog",
-                    articles: articlesCount
-                };
-                handleFormSubmit('form-entertainment', payload, 'ent', WEBHOOK_URL);
-            });
-
             formMovie.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const movieName = document.getElementById('mov-name').value;
